@@ -21,6 +21,7 @@ export function MapView() {
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
+  console.log('map', map);
   const onLoad = useCallback(function callback(map: google.maps.Map) {
     setMap(map);
   }, []);

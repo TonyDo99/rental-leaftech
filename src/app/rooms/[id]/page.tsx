@@ -31,8 +31,7 @@ const mockRoom = {
   size: '600 sqft',
 };
 
-export default function RoomDetail({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function RoomDetail() {
   // In a real app, you would fetch the room data here based on the ID
   const room = mockRoom;
 
