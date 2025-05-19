@@ -3,8 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from '@clerk/nextjs';
 
-export function Navbar() {
+export function Navbar({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -23,19 +30,28 @@ export function Navbar() {
                 Browse
               </Button>
             </Link>
-            <Link href="/dashboard">
-              <Button
-                variant={pathname === '/dashboard' ? 'default' : 'ghost'}
-                className="text-sm font-medium transition-colors"
-              >
-                Dashboard
-              </Button>
-            </Link>
+            {isAdmin && (
+              <Link href="/dashboard">
+                <Button
+                  variant={pathname === '/dashboard' ? 'default' : 'ghost'}
+                  className="text-sm font-medium transition-colors"
+                >
+                  Dashboard
+                </Button>
+              </Link>
+            )}
           </div>
           <div className="ml-auto flex items-center space-x-2">
-            <Button variant="outline" className="text-sm font-medium">
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            {/* <Button variant="outline" className="text-sm font-medium">
               Sign In
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

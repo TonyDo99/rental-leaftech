@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { SearchFilters } from '@/components/room/search-filters';
-import { RoomGrid } from '@/components/room/room-grid';
+import { useState } from "react";
+import { SearchFilters } from "@/components/room/search-filters";
+import { RoomGrid } from "@/components/room/room-grid";
 
 interface FilterState {
   location: string;
@@ -13,7 +13,7 @@ interface FilterState {
 
 export default function Home() {
   const [filters, setFilters] = useState<FilterState>({
-    location: '',
+    location: "",
     priceRange: [0, 10000],
     propertyType: null,
     roomSize: null,
