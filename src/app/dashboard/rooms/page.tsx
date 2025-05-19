@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,26 +8,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Plus, Pencil, Trash2, Upload, X } from 'lucide-react';
-import Image from 'next/image';
+} from "@/components/ui/select";
+import { Plus, Pencil, Trash2, Upload, X } from "lucide-react";
+import Image from "next/image";
 
 interface Room {
   id: number;
@@ -43,39 +43,39 @@ interface Room {
 }
 
 const roomCategories = [
-  'Apartment',
-  'Studio',
-  'House',
-  'Villa',
-  'Condo',
-  'Townhouse',
+  "Apartment",
+  "Studio",
+  "House",
+  "Villa",
+  "Condo",
+  "Townhouse",
 ];
 
 // Mock data - replace with actual data from your backend
 const mockRooms: Room[] = [
   {
     id: 1,
-    name: 'Luxury Studio',
-    number: '101',
-    type: 'Single',
-    category: 'Studio',
+    name: "Luxury Studio",
+    number: "101",
+    type: "Single",
+    category: "Studio",
     size: 45,
     price: 500,
-    status: 'Available',
-    owner: 'John Smith',
-    images: ['/room1.jpg', '/room2.jpg'],
+    status: "Available",
+    owner: "John Smith",
+    images: ["/room1.jpg", "/room2.jpg"],
   },
   {
     id: 2,
-    name: 'Family Apartment',
-    number: '102',
-    type: 'Double',
-    category: 'Apartment',
+    name: "Family Apartment",
+    number: "102",
+    type: "Double",
+    category: "Apartment",
     size: 85,
     price: 800,
-    status: 'Occupied',
-    owner: 'Jane Doe',
-    images: ['/room3.jpg', '/room4.jpg'],
+    status: "Occupied",
+    owner: "Jane Doe",
+    images: ["/room3.jpg", "/room4.jpg"],
   },
 ];
 
@@ -86,6 +86,8 @@ export default function RoomsPage() {
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+
+  console.log("Selected Images", selectedImages);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
