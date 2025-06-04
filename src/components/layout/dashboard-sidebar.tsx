@@ -4,8 +4,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Home, Building2, Users, Settings, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import {
+  Home,
+  Building2,
+  Users,
+  Settings,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Calendar,
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const sidebarItems = [
   {
@@ -24,6 +34,11 @@ const sidebarItems = [
     icon: Users,
   },
   {
+    title: 'Schedule',
+    href: '/dashboard/services',
+    icon: Calendar,
+  },
+  {
     title: 'Settings',
     href: '/dashboard/settings',
     icon: Settings,
@@ -33,6 +48,36 @@ const sidebarItems = [
 export function DashboardSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('sidebarCollapsed') === 'true';
+    }
+    return false;
+  });
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Handle collapse state changes
+  const handleCollapse = () => {
+    const newState = !isCollapsed;
+    setIsCollapsed(newState);
+    localStorage.setItem('sidebarCollapsed', String(newState));
+    // Dispatch storage event to notify other components
+    window.dispatchEvent(new Event('storage'));
+  };
 
   return (
     <>
@@ -49,16 +94,31 @@ export function DashboardSidebar() {
       {/* Sidebar */}
       <div
         className={cn(
-          'fixed inset-y-0 left-0 z-40 w-64 transform bg-background transition-transform duration-200 ease-in-out md:translate-x-0',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          'fixed inset-y-0 left-0 z-40 flex flex-col bg-background transition-all duration-300 ease-in-out md:translate-x-0',
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+          isCollapsed ? 'w-20' : 'w-64'
         )}
       >
-        <div className="flex h-16 items-center border-b px-6">
-          <Link href="/dashboard" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">Dashboard</span>
-          </Link>
+        <div className="flex h-16 items-center justify-between border-b px-4">
+          {!isCollapsed && (
+            <Link href="/dashboard" className="flex items-center space-x-2">
+              <span className="text-xl font-bold">Dashboard</span>
+            </Link>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden md:flex"
+            onClick={handleCollapse}
+          >
+            {isCollapsed ? (
+              <ChevronRight className="h-5 w-5" />
+            ) : (
+              <ChevronLeft className="h-5 w-5" />
+            )}
+          </Button>
         </div>
-        <nav className="space-y-1 p-4">
+        <nav className="flex-1 space-y-1 p-4">
           {sidebarItems.map((item) => (
             <Link
               key={item.href}
@@ -67,11 +127,12 @@ export function DashboardSidebar() {
                 'flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 pathname === item.href
                   ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-muted'
+                  : 'hover:bg-muted',
+                isCollapsed && 'justify-center'
               )}
             >
               <item.icon className="h-5 w-5" />
-              <span>{item.title}</span>
+              {!isCollapsed && <span>{item.title}</span>}
             </Link>
           ))}
         </nav>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface FilterState {
   location: string;
@@ -62,107 +63,40 @@ export function SearchFilters({ onFiltersChange }: SearchFiltersProps) {
   }, [location, priceRange, propertyType, roomSize, onFiltersChange]);
 
   return (
-    <div className="bg-background py-4">
-      <div className="flex flex-col space-y-6 md:space-y-0 md:flex-row md:items-end md:space-x-6">
+    <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Location Filter */}
-        <div className="flex-1">
-          <Label
-            htmlFor="location"
-            className="text-sm font-medium text-muted-foreground mb-2 block"
-          >
-            Location
-          </Label>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              id="location"
-              placeholder="Enter location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className={cn(
-                'pl-9 h-10 bg-background',
-                'border-muted-foreground/20 hover:border-muted-foreground/30',
-                'focus:border-muted-foreground/40 focus:ring-0'
-              )}
-            />
-          </div>
-        </div>
-
-        {/* Price Range Filter */}
-        <div className="flex-1">
-          <Label className="text-sm font-medium text-muted-foreground mb-2 block">
-            Price Range
-          </Label>
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                  $
-                </span>
-                <Input
-                  type="text"
-                  value={formatPrice(priceRange[0])}
-                  onChange={(e) => handlePriceInput(0, e.target.value)}
-                  onFocus={() => setIsEditingPrice(true)}
-                  onBlur={() => setIsEditingPrice(false)}
-                  className={cn(
-                    'pl-7 h-10 bg-background',
-                    'border-muted-foreground/20 hover:border-muted-foreground/30',
-                    'focus:border-muted-foreground/40 focus:ring-0'
-                  )}
-                />
-              </div>
-              <span className="text-muted-foreground">—</span>
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                  $
-                </span>
-                <Input
-                  type="text"
-                  value={formatPrice(priceRange[1])}
-                  onChange={(e) => handlePriceInput(1, e.target.value)}
-                  onFocus={() => setIsEditingPrice(true)}
-                  onBlur={() => setIsEditingPrice(false)}
-                  className={cn(
-                    'pl-7 h-10 bg-background',
-                    'border-muted-foreground/20 hover:border-muted-foreground/30',
-                    'focus:border-muted-foreground/40 focus:ring-0'
-                  )}
-                />
-              </div>
-            </div>
-            <Slider
-              value={priceRange}
-              onValueChange={(value) => {
-                if (!isEditingPrice) {
-                  setPriceRange(value as [number, number]);
-                }
-              }}
-              max={10000}
-              min={0}
-              step={100}
-              className="mt-2"
-            />
-          </div>
+        <div className="relative">
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Input
+            id="location"
+            placeholder="Enter location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className={cn(
+              'pl-10 h-12 bg-white',
+              'border-gray-200 hover:border-gray-300',
+              'focus:border-primary focus:ring-0',
+              'text-gray-700 placeholder:text-gray-400'
+            )}
+          />
         </div>
 
         {/* Property Type Filter */}
-        <div className="flex-1">
-          <Label className="text-sm font-medium text-muted-foreground mb-2 block">
-            Property Type
-          </Label>
+        <div>
           <Select
             value={propertyType || undefined}
             onValueChange={setPropertyType}
           >
             <SelectTrigger
               className={cn(
-                'cursor-pointer w-full h-10 bg-background',
-                'border-muted-foreground/20 hover:border-muted-foreground/30',
-                'focus:border-muted-foreground/40 focus:ring-0'
+                'h-12 bg-white',
+                'border-gray-200 hover:border-gray-300',
+                'focus:border-primary focus:ring-0',
+                'text-gray-700'
               )}
             >
-              <SelectValue placeholder="Any type" />
+              <SelectValue placeholder="Property Type" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="apartment">Apartment</SelectItem>
@@ -174,19 +108,17 @@ export function SearchFilters({ onFiltersChange }: SearchFiltersProps) {
         </div>
 
         {/* Room Size Filter */}
-        <div className="flex-1">
-          <Label className="text-sm font-medium text-muted-foreground mb-2 block">
-            Bedrooms
-          </Label>
+        <div>
           <Select value={roomSize || undefined} onValueChange={setRoomSize}>
             <SelectTrigger
               className={cn(
-                'cursor-pointer w-full h-10 bg-background',
-                'border-muted-foreground/20 hover:border-muted-foreground/30',
-                'focus:border-muted-foreground/40 focus:ring-0'
+                'h-12 bg-white',
+                'border-gray-200 hover:border-gray-300',
+                'focus:border-primary focus:ring-0',
+                'text-gray-700'
               )}
             >
-              <SelectValue placeholder="Any size" />
+              <SelectValue placeholder="Bedrooms" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="studio">Studio</SelectItem>
@@ -196,6 +128,82 @@ export function SearchFilters({ onFiltersChange }: SearchFiltersProps) {
               <SelectItem value="4">4+ Bedrooms</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Search Button */}
+        <Button
+          className="h-12 bg-primary hover:bg-primary/90 text-white"
+          onClick={() =>
+            onFiltersChange({
+              location,
+              priceRange: [priceRange[0], priceRange[1]],
+              propertyType,
+              roomSize,
+            })
+          }
+        >
+          <Search className="h-5 w-5 mr-2" />
+          Search
+        </Button>
+      </div>
+
+      {/* Price Range Filter */}
+      <div className="mt-4">
+        <Label className="text-sm font-medium text-gray-700 mb-2 block">
+          Price Range
+        </Label>
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                $
+              </span>
+              <Input
+                type="text"
+                value={formatPrice(priceRange[0])}
+                onChange={(e) => handlePriceInput(0, e.target.value)}
+                onFocus={() => setIsEditingPrice(true)}
+                onBlur={() => setIsEditingPrice(false)}
+                className={cn(
+                  'pl-7 h-12 bg-white',
+                  'border-gray-200 hover:border-gray-300',
+                  'focus:border-primary focus:ring-0',
+                  'text-gray-700'
+                )}
+              />
+            </div>
+            <span className="text-gray-500">—</span>
+            <div className="relative flex-1">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                $
+              </span>
+              <Input
+                type="text"
+                value={formatPrice(priceRange[1])}
+                onChange={(e) => handlePriceInput(1, e.target.value)}
+                onFocus={() => setIsEditingPrice(true)}
+                onBlur={() => setIsEditingPrice(false)}
+                className={cn(
+                  'pl-7 h-12 bg-white',
+                  'border-gray-200 hover:border-gray-300',
+                  'focus:border-primary focus:ring-0',
+                  'text-gray-700'
+                )}
+              />
+            </div>
+          </div>
+          <Slider
+            value={priceRange}
+            onValueChange={(value) => {
+              if (!isEditingPrice) {
+                setPriceRange(value as [number, number]);
+              }
+            }}
+            max={10000}
+            min={0}
+            step={100}
+            className="mt-2"
+          />
         </div>
       </div>
     </div>

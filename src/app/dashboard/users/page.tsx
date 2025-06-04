@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,33 +8,33 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import Image from 'next/image';
-import { Upload, X } from 'lucide-react';
+} from "@/components/ui/select";
+import Image from "next/image";
+import { Upload, X } from "lucide-react";
 
 interface User {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   image: string;
 }
 
@@ -42,20 +42,43 @@ interface User {
 const mockUsers: User[] = [
   {
     id: 1,
-    name: 'John Doe',
-    email: 'john@example.com',
-    role: 'admin',
-    image: '/user1.jpg',
+    name: "John Doe",
+    email: "john@example.com",
+    role: "admin",
+    image: "/user1.jpg",
   },
   {
     id: 2,
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    role: 'user',
-    image: '/user2.jpg',
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "user",
+    image: "/user2.jpg",
   },
   // Add more mock data as needed
 ];
+
+// const formSchema = z.object({
+//   name: z.string().min(2, {
+//     message: "Name must be at least 2 characters.",
+//   }),
+//   age: z.number().min(12, {
+//     message: "Age must be at least 12",
+//   }),
+//   email: z.string().email({
+//     message: "Invalid email address",
+//   }),
+//   phone: z.string().min(10, {
+//     message: "Phone number must be at least 10 characters",
+//   }),
+//   identity: z.string().min(12, {
+//     message: "Identity number must be at least 12 characters",
+//   }),
+//   bed: z.number().min(1, {
+//     message: "Bed count must be at least 1",
+//   }),
+//   address: z.optional(z.literal("address")),
+//   status: z.enum([EStatus.AVAILABLE, EStatus.UNAVAILABLE]),
+// });
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(mockUsers);
@@ -63,7 +86,7 @@ export default function UsersPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [previewUrl, setPreviewUrl] = useState<string>("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -78,11 +101,11 @@ export default function UsersPage() {
     // Add user logic here
     if (selectedImage) {
       // Handle image upload here
-      console.log('Uploading image:', selectedImage);
+      console.log("Uploading image:", selectedImage);
     }
     setIsAddDialogOpen(false);
     setSelectedImage(null);
-    setPreviewUrl('');
+    setPreviewUrl("");
   };
 
   const handleEditUser = (e: React.FormEvent) => {
@@ -90,7 +113,7 @@ export default function UsersPage() {
     // Edit user logic here
     if (selectedImage) {
       // Handle image upload here
-      console.log('Uploading new image:', selectedImage);
+      console.log("Uploading new image:", selectedImage);
     }
     setIsEditDialogOpen(false);
   };
@@ -169,7 +192,7 @@ export default function UsersPage() {
                         className="absolute -right-2 -top-2 h-6 w-6"
                         onClick={() => {
                           setSelectedImage(null);
-                          setPreviewUrl('');
+                          setPreviewUrl("");
                         }}
                       >
                         <X className="h-4 w-4" />
