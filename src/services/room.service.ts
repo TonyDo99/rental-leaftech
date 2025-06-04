@@ -1,11 +1,10 @@
+import { RoomFormData } from '@/app/dashboard/rooms/types';
 import axios from 'axios';
-import { z } from 'zod';
-import { formAddRoomSchema } from '@/app/dashboard/rooms/page';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 export const roomService = {
-  createRoom: async (data: z.infer<typeof formAddRoomSchema>) => {
+  createRoom: async (data: RoomFormData) => {
     try {
       console.log('Creating room with data:', data);
       const response = await axios.post(`${API_URL}/room/create`, data);
@@ -49,7 +48,7 @@ export const roomService = {
     }
   },
 
-  updateRoom: async (id: string, data: z.infer<typeof formAddRoomSchema>) => {
+  updateRoom: async (id: string, data: RoomFormData) => {
     try {
       console.log('Updating room with data:', { id, ...data });
       const response = await axios.patch(`${API_URL}/room/update`, {

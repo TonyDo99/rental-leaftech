@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash2 } from 'lucide-react';
-import { Category, EAmenities, EStatus, Room } from './types';
+import { Category, EAmenities, EStatus, Room, RoomFormData } from './types';
 import RoomDialog from './dialog';
 import { roomService } from '@/services/room.service';
 import toast from 'react-hot-toast';
@@ -55,18 +55,7 @@ const mockCategories: Category[] = [
   },
 ];
 
-export type RoomFormData = {
-  name: string;
-  description?: string;
-  amenities: EAmenities[];
-  price: number;
-  location: string;
-  images: string[];
-  bed: number;
-  status: EStatus;
-};
-
-export const formAddRoomSchema = z.object({
+const formAddRoomSchema = z.object({
   name: z.string().min(2, {
     message: 'Name must be at least 2 characters.',
   }),
@@ -83,7 +72,7 @@ export const formAddRoomSchema = z.object({
   //     return false;
   //   }
   // }, 'Please select a valid location'),
-  location: z.optional(z.string()),
+  location: z.string(),
   images: z.array(z.string()),
   bed: z.number().min(1, {
     message: 'Bed count must be at least 1',
@@ -98,7 +87,7 @@ function mapToEAmenities(arr: string[]): EAmenities[] {
   );
 }
 
-export async function uploadRoomImages(
+async function uploadRoomImages(
   files: File[],
   roomId: string
 ): Promise<string[]> {

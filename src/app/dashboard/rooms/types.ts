@@ -1,3 +1,13 @@
+export type RoomFormData = {
+  name: string;
+  description?: string;
+  amenities: EAmenities[];
+  price: number;
+  location: string;
+  images: string[];
+  bed: number;
+  status: EStatus;
+};
 export interface Room {
   id: string;
   name: string;
