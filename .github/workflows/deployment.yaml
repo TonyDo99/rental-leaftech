@@ -1,13 +1,16 @@
 name: Vercel Development Deployment
+
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   push:
     branches:
       - dev
+
 jobs:
-  deploy-production:
+  deploy-development:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,8 +18,15 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      # - name: Switch team
-      #   run: vercel teams list --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel --token=${{ secrets.VERCEL_TOKEN }} --scope=ivankalungiclausen-gmailcoms-projects
+      - name: Deploy to Vercel
+        run: |
+          vercel \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --development \
+            --yes \
+            --confirm \
+            --env VERCEL_PROJECT_ID=${{ secrets.VERCEL_PROJECT_ID }} \
+            --env VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }} \
+            --logs
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
