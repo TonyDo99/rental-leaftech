@@ -81,7 +81,7 @@ export function LocationInput<T extends FieldValues>({
     return () => {
       document.head.removeChild(script);
     };
-  }, []);
+  });
 
   const initializeAutocomplete = () => {
     if (inputRef.current && window.google) {

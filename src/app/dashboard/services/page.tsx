@@ -34,9 +34,9 @@ import {
   EServiceType,
   EServiceFrequency,
   ServiceSchedule,
-  CreateServiceScheduleInput,
+  // CreateServiceScheduleInput,
 } from './types';
-import { serviceService } from '@/services/service.service';
+import { serviceService } from '@/services/schedule.service';
 import { ServiceCalendar } from '@/components/ui/service-calendar';
 import toast from 'react-hot-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -80,6 +80,7 @@ export default function ServicesPage() {
       const schedules = await serviceService.getServiceSchedules();
       setServiceSchedules(schedules);
     } catch (error) {
+      console.error(error);
       toast.error('Failed to load service schedules');
     }
   };
@@ -99,6 +100,7 @@ export default function ServicesPage() {
       setIsDialogOpen(false);
       form.reset();
     } catch (error) {
+      console.error(error);
       toast.error('Failed to create service schedule');
     } finally {
       setIsSubmitting(false);
@@ -115,6 +117,7 @@ export default function ServicesPage() {
       );
       toast.success('Service marked as completed');
     } catch (error) {
+      console.error(error);
       toast.error('Failed to mark service as completed');
     }
   };

@@ -1,28 +1,28 @@
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Plus, X } from 'lucide-react';
-import { Category, EAmenities, EStatus } from './types';
-import { UseFormReturn } from 'react-hook-form';
-import { formAddRoomSchema } from './page';
-import { LocationInput } from '@/components/ui/location-input';
-import { Checkbox } from '@/components/ui/checkbox';
-import Image from 'next/image';
+} from "@/components/ui/select";
+import { Plus, X } from "lucide-react";
+import { Category, EAmenities, EStatus } from "./types";
+import { UseFormReturn } from "react-hook-form";
+import { formAddRoomSchema } from "./page";
+// import { LocationInput } from '@/components/ui/location-input';
+import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
 
 type RoomFormData = z.infer<typeof formAddRoomSchema>;
 
@@ -36,14 +36,14 @@ interface RoomDialogProps {
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeImage: (index: number) => void;
   isSubmitting: boolean;
-  mode: 'create' | 'edit';
+  mode: "create" | "edit";
   selectedRoom: RoomFormData | null;
 }
 
 function RoomDialog({
   form,
   previewUrls,
-  categories,
+  // categories,
   isOpen,
   setIsOpen,
   onSubmit,
@@ -51,12 +51,12 @@ function RoomDialog({
   removeImage,
   isSubmitting,
   mode,
-  selectedRoom,
+  // selectedRoom,
 }: RoomDialogProps) {
-  const isEdit = mode === 'edit';
-  const title = isEdit ? 'Edit Room' : 'Add New Room';
-  const buttonText = isEdit ? 'Save Changes' : 'Add Room';
-  const loadingText = isEdit ? 'Saving...' : 'Creating...';
+  const isEdit = mode === "edit";
+  // const title = isEdit ? "Edit Room" : "Add New Room";
+  const buttonText = isEdit ? "Save Changes" : "Add Room";
+  const loadingText = isEdit ? "Saving..." : "Creating...";
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -69,7 +69,7 @@ function RoomDialog({
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900">
-            {mode === 'create' ? 'Add New Room' : 'Edit Room'}
+            {mode === "create" ? "Add New Room" : "Edit Room"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -80,7 +80,7 @@ function RoomDialog({
               </Label>
               <Input
                 id="name"
-                {...form.register('name')}
+                {...form.register("name")}
                 placeholder="Enter room name"
                 className="border-gray-200"
               />
@@ -98,7 +98,7 @@ function RoomDialog({
               <Input
                 id="price"
                 type="number"
-                {...form.register('price', { valueAsNumber: true })}
+                {...form.register("price", { valueAsNumber: true })}
                 placeholder="Enter price"
                 className="border-gray-200"
               />
@@ -116,7 +116,7 @@ function RoomDialog({
             </Label>
             <Input
               id="description"
-              {...form.register('description')}
+              {...form.register("description")}
               placeholder="Enter room description"
               className="border-gray-200"
             />
@@ -130,7 +130,7 @@ function RoomDialog({
               <Input
                 id="bed"
                 type="number"
-                {...form.register('bed', { valueAsNumber: true })}
+                {...form.register("bed", { valueAsNumber: true })}
                 placeholder="Enter number of beds"
                 className="border-gray-200"
               />
@@ -147,9 +147,9 @@ function RoomDialog({
               </Label>
               <Select
                 onValueChange={(value) =>
-                  form.setValue('status', value as EStatus)
+                  form.setValue("status", value as EStatus)
                 }
-                defaultValue={form.getValues('status')}
+                defaultValue={form.getValues("status")}
               >
                 <SelectTrigger className="border-gray-200">
                   <SelectValue placeholder="Select status" />
@@ -172,15 +172,15 @@ function RoomDialog({
                 <div key={amenity} className="flex items-center space-x-2">
                   <Checkbox
                     id={amenity}
-                    checked={form.watch('amenities')?.includes(amenity)}
+                    checked={form.watch("amenities")?.includes(amenity)}
                     onCheckedChange={(checked: boolean) => {
-                      const amenities = form.getValues('amenities') || [];
+                      const amenities = form.getValues("amenities") || [];
                       if (checked) {
-                        form.setValue('amenities', [...amenities, amenity]);
+                        form.setValue("amenities", [...amenities, amenity]);
                       } else {
                         form.setValue(
-                          'amenities',
-                          amenities.filter((a) => a !== amenity)
+                          "amenities",
+                          amenities.filter((a) => a !== amenity),
                         );
                       }
                     }}
